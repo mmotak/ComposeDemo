@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -13,7 +14,9 @@ import pl.mmotak.composedemo.ui.theme.ComposeDemoTheme
 @Composable
 fun MyTopBar(
     title: String,
-    onBackPressed: (() -> Unit)? = null
+    onBackPressed: (() -> Unit)? = null,
+    showBackIconAsArrow: Boolean = true,
+    showBackIconAsClose: Boolean = false,
 ) {
     TopAppBar(
         title = {
@@ -21,8 +24,15 @@ fun MyTopBar(
         },
         navigationIcon = if (onBackPressed == null) null else {
             {
-                IconButton(onClick = onBackPressed) {
-                    Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = null)
+                IconButton(
+                    onClick = onBackPressed
+                )
+                {
+                    Icon(
+                        imageVector = if (showBackIconAsArrow) Icons.Filled.ArrowBack
+                        else Icons.Filled.Close,
+                        contentDescription = null
+                    )
                 }
             }
         },

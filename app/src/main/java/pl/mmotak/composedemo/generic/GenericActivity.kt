@@ -1,43 +1,41 @@
-package pl.mmotak.composedemo.main
+package pl.mmotak.composedemo.generic
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import pl.mmotak.composedemo.base.MyTopBar
 import pl.mmotak.composedemo.ui.theme.ComposeDemoTheme
 
-class StartActivity : ComponentActivity() {
+
+class GenericActivity: ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val code: GenericActivityCode = intent?.getParcelableExtra(KEY) ?: GenericActivityCode.ShimmerEffect
+
         setContent {
             ComposeDemoTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Greeting("Android")
+                    Column() {
+                        MyTopBar(
+                            title = code.title,
+                            onBackPressed = { finish() }
+                        )
+                        BuildScreen(code)
+                    }
                 }
             }
         }
     }
-}
 
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    ComposeDemoTheme {
-        Greeting("Android")
+    companion object {
+        const val KEY = "GENERIC_KEY"
     }
 }
